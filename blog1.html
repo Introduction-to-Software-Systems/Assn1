@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="stylesheet1" rel="stylesheet" href="./style.css" />
+    <link id="stylesheet2" rel="stylesheet" href="./style2.css" disabled />
+    <title>Sicilian Defense</title>
+  </head>
+  <body>
+    <div class="Flexbox">
+    <div class="blog-post">
+        <h1>Sicilian Defense</h1>
+        <p>
+            The Sicilian Defense is a dynamic and combative chess opening that
+            arises after the initial moves 1.e4 c5. Named after the Italian island
+            of Sicily, this defense is known for its asymmetrical and asymmetrical
+            nature, setting the stage for sharp and complex positions. One of the
+            key distinguishing features of the Sicilian Defense is Black's
+            willingness to forgo immediate central pawn control in favor of creating
+            an off-center pawn structure. The Sicilian Defense encompasses a wide
+            range of variations, including the Open Sicilian, Closed Sicilian, and
+            Hyperaccelerated Dragon, among others. The Open Sicilian, characterized
+            by the moves 1.e4 c5 2.Nf3 followed by 3.d4, leads to open and tactical
+            positions with double-edged complexities. In contrast, the Closed
+            Sicilian involves White opting for a slower pawn structure, often aiming
+            for a more strategic battle. The Sicilian Defense has been a favorite
+            among world champions and top-level players for its ability to create
+            imbalances and offer winning chances for both sides. Its adaptability
+            allows players to choose lines based on their preferred style – be it
+            aggressive, positional, or a blend of both. The complexity and richness
+            of the Sicilian Defense make it a perennial favorite, ensuring its
+            enduring popularity in chess tournaments at all levels.
+        </p>
+        <button class="like-button" id="likeButton">Like</button>
+        <p id="likeCount">0 likes</p>
+
+        <div class="comment-box">
+            <textarea
+            id="commentInput"
+            class="comment-input"
+            placeholder="Add your comment"
+            ></textarea>
+            <button id="submitComment" class="like-button">Submit Comment</button>
+        </div>
+
+        <div class="comment-list" id="commentList">
+            <!-- Comments will be added dynamically here -->
+        </div>
+        </div>
+    </div>
+
+    <script>
+      // Retrieve like count from localStorage, or default to 0 if not set
+      let likeCount = parseInt(localStorage.getItem("likeCount")) || 0;
+      let isLiked = localStorage.getItem("isLiked") === "true" || false;
+      let comments = JSON.parse(localStorage.getItem("comments")) || [];
+
+      const likeButton = document.getElementById("likeButton");
+      const likeCountDisplay = document.getElementById("likeCount");
+      const commentInput = document.getElementById("commentInput");
+      const submitComment = document.getElementById("submitComment");
+      const commentList = document.getElementById("commentList");
+
+      likeCountDisplay.textContent =
+        likeCount + (likeCount === 1 ? " like" : " likes");
+      likeButton.textContent = isLiked ? "Unlike" : "Like";
+
+      likeButton.addEventListener("click", function () {
+        if (!isLiked) {
+          likeCount++;
+          likeCountDisplay.textContent =
+            likeCount + (likeCount === 1 ? " like" : " likes");
+          isLiked = true;
+          likeButton.textContent = "Unlike";
+        } else {
+          likeCount--;
+          likeCountDisplay.textContent =
+            likeCount + (likeCount === 1 ? " like" : " likes");
+          isLiked = false;
+          likeButton.textContent = "Like";
+        }
+        localStorage.setItem("likeCount", likeCount);
+        localStorage.setItem("isLiked", isLiked);
+      });
+
+      submitComment.addEventListener("click", function () {
+        const commentText = commentInput.value.trim();
+        if (commentText !== "") {
+          comments.push(commentText);
+          renderComments();
+          localStorage.setItem("comments", JSON.stringify(comments));
+          commentInput.value = "";
+        }
+      });
+
+      function renderComments() {
+        commentList.innerHTML = "";
+        comments.forEach(function (comment) {
+          const commentElement = document.createElement("div");
+          commentElement.classList.add("comment");
+          commentElement.textContent = comment;
+          commentList.appendChild(commentElement);
+        });
+      }
+
+      renderComments();
+    </script>
+  </body>
+</html>

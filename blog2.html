@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="stylesheet1" rel="stylesheet" href="./style.css" />
+    <link id="stylesheet2" rel="stylesheet" href="./style2.css" disabled />
+    <title>King's Indian Defense</title>
+  </head>
+  <body>
+    <div class="Flexbox">
+      <div class="blog-post">
+        <h1>King's Indian Defense</h1>
+        <p>
+          The King's Indian Defense is a bold and dynamic chess opening that
+          arises after the initial moves 1.e4 d3 2.d4 Nf6. Named after the
+          Indian world champion Viswanathan Anand, this opening is renowned for
+          its solid structure and aggressive counter-attacking potential.
+          Emphasizing piece development and central control, the King's Indian
+          Defense allows Black to build a flexible pawn structure, often opting
+          for a pawn chain with ...d6 and ...e5, leading to a robust position.
+          One of the defining characteristics of the King's Indian Defense is
+          the hypermodern approach, where Black aims to control the center with
+          pieces rather than pawns. The strategic complexity often results in
+          rich middlegame positions, where both sides have distinct plans and
+          pawn structures. The battle typically revolves around White's central
+          pawn structure and Black's counterplay on the kingside. The King's
+          Indian Defense has several variations, including the Classical,
+          Fianchetto, and Samisch setups, each offering unique strategic
+          nuances. The Classical variation, with ...e5 and ...d6, leads to solid
+          structures and strategic battles, while the Fianchetto variation
+          involves placing the bishop on g7 for a more dynamic and
+          counter-attacking game. Overall, the King's Indian Defense is a
+          versatile and dynamic choice for players seeking a blend of solid
+          positional play and aggressive counterpunching, making it a favorite
+          among many top-level players and a perennially intriguing opening in
+          chess.
+        </p>
+        <button class="like-button" id="likeButton">Like</button>
+        <p id="likeCount">0 likes</p>
+
+        <div class="comment-box">
+          <textarea
+            id="commentInput"
+            class="comment-input"
+            placeholder="Add your comment"
+          ></textarea>
+          <button id="submitComment" class="like-button">Submit Comment</button>
+        </div>
+
+        <div class="comment-list" id="commentList">
+          <!-- Comments will be added dynamically here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let likeCount = parseInt(localStorage.getItem("sukunaLikeCount")) || 0;
+      let isLiked = localStorage.getItem("sukunaIsLiked") === "true" || false;
+      let comments = JSON.parse(localStorage.getItem("sukunaComments")) || [];
+
+      const likeButton = document.getElementById("likeButton");
+      const likeCountDisplay = document.getElementById("likeCount");
+      const commentInput = document.getElementById("commentInput");
+      const submitComment = document.getElementById("submitComment");
+      const commentList = document.getElementById("commentList");
+
+      likeCountDisplay.textContent =
+        likeCount + (likeCount === 1 ? " like" : " likes");
+      likeButton.textContent = isLiked ? "Unlike" : "Like";
+
+      likeButton.addEventListener("click", function () {
+        if (!isLiked) {
+          likeCount++;
+          likeCountDisplay.textContent =
+            likeCount + (likeCount === 1 ? " like" : " likes");
+          isLiked = true;
+          likeButton.textContent = "Unlike";
+        } else {
+          likeCount--;
+          likeCountDisplay.textContent =
+            likeCount + (likeCount === 1 ? " like" : " likes");
+          isLiked = false;
+          likeButton.textContent = "Like";
+        }
+        localStorage.setItem("sukunaLikeCount", likeCount);
+        localStorage.setItem("sukunaIsLiked", isLiked);
+      });
+
+      submitComment.addEventListener("click", function () {
+        const commentText = commentInput.value.trim();
+        if (commentText !== "") {
+          comments.push(commentText);
+          renderComments();
+          localStorage.setItem("sukunaComments", JSON.stringify(comments));
+          commentInput.value = "";
+        }
+      });
+
+      function renderComments() {
+        commentList.innerHTML = "";
+        comments.forEach(function (comment) {
+          const commentElement = document.createElement("div");
+          commentElement.classList.add("comment");
+          commentElement.textContent = comment;
+          commentList.appendChild(commentElement);
+        });
+      }
+
+      renderComments();
+    </script>
+  </body>
+</html>
